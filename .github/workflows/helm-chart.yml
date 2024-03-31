@@ -21,7 +21,7 @@ jobs:
           helm repo add tempo https://grafana.github.io/helm-charts
           helm repo add grafana https://grafana.github.io/helm-charts
       - name: ci-lint-helm-charts
-        uses: smartcontractkit/.github/actions/ci-lint-charts@6b08487b176ef7cad086526d0b54ddff6691c044 # ci-lint-charts@0.1.2
+        uses: smartcontractkit/.github/actions/ci-lint-charts@1bc7ce34fa81fffcb4a6eb0e4e12e59d94d0fc8f # ci-lint-charts@0.1.2
         with:
           # chart testing inputs
           chart-testing-extra-args: "--lint-conf=lintconf.yaml"
