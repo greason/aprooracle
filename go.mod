@@ -18,7 +18,7 @@ require (
 	github.com/esote/minmaxheap v1.0.0
 	github.com/ethereum/go-ethereum v1.13.8
 	github.com/fatih/color v1.16.0
-	github.com/fxamacker/cbor/v2 v2.5.0
+	github.com/fxamacker/cbor/v2 v2.6.0
 	github.com/gagliardetto/solana-go v1.4.1-0.20220428092759-5250b4abbb27
 	github.com/getsentry/sentry-go v0.19.0
 	github.com/gin-contrib/cors v1.5.0
