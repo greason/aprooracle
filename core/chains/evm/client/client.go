@@ -25,7 +25,8 @@ import (
 	pkgerrors "github.com/pkg/errors"
 )
 
-const queryTimeout = 10 * time.Second
+// adjust for error: context deadline exceeded
+const queryTimeout = 15 * time.Second
 const BALANCE_OF_ADDRESS_FUNCTION_SELECTOR = "0x70a08231"
 
 //go:generate mockery --quiet --name Client --output ./mocks/ --case=underscore

@@ -307,6 +307,10 @@ const (
 	TaskTypePanic TaskType = "panic"
 	TaskTypeMemo  TaskType = "memo"
 	TaskTypeFail  TaskType = "fail"
+
+	TaskTypePow       TaskType = "pow"
+	TaskTypeMeanTrim  TaskType = "meantrim"
+	TaskTypeDeviation TaskType = "deviation"
 )
 
 var (
@@ -338,6 +342,8 @@ func UnmarshalTaskFromMap(taskType TaskType, taskMap interface{}, ID int, dotID 
 		task = &BridgeTask{BaseTask: BaseTask{id: ID, dotID: dotID}}
 	case TaskTypeMean:
 		task = &MeanTask{BaseTask: BaseTask{id: ID, dotID: dotID}}
+	case TaskTypeMeanTrim:
+		task = &MeanTrimTask{BaseTask: BaseTask{id: ID, dotID: dotID}}
 	case TaskTypeMedian:
 		task = &MedianTask{BaseTask: BaseTask{id: ID, dotID: dotID}}
 	case TaskTypeMode:
@@ -354,6 +360,10 @@ func UnmarshalTaskFromMap(taskType TaskType, taskMap interface{}, ID int, dotID 
 		task = &MultiplyTask{BaseTask: BaseTask{id: ID, dotID: dotID}}
 	case TaskTypeDivide:
 		task = &DivideTask{BaseTask: BaseTask{id: ID, dotID: dotID}}
+	case TaskTypePow:
+		task = &PowTask{BaseTask: BaseTask{id: ID, dotID: dotID}}
+	case TaskTypeDeviation:
+		task = &DeviationTask{BaseTask: BaseTask{id: ID, dotID: dotID}}
 	case TaskTypeVRF:
 		task = &VRFTask{BaseTask: BaseTask{id: ID, dotID: dotID}}
 	case TaskTypeVRFV2:
