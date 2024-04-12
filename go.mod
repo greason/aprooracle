@@ -29,7 +29,7 @@ require (
 	github.com/go-ldap/ldap/v3 v3.4.6
 	github.com/go-webauthn/webauthn v0.9.4
 	github.com/google/pprof v0.0.0-20231023181126-ff6d637d2a7b
-	github.com/google/uuid v1.4.0
+	github.com/google/uuid v1.6.0
 	github.com/gorilla/securecookie v1.1.2
 	github.com/gorilla/sessions v1.2.2
 	github.com/gorilla/websocket v1.5.1
@@ -60,7 +60,7 @@ require (
 	github.com/pelletier/go-toml v1.9.5
 	github.com/pelletier/go-toml/v2 v2.1.1
 	github.com/pkg/errors v0.9.1
-	github.com/pressly/goose/v3 v3.16.0
+	github.com/pressly/goose/v3 v3.19.2
 	github.com/prometheus/client_golang v1.17.0
 	github.com/prometheus/client_model v0.5.0
 	github.com/prometheus/common v0.45.0
@@ -113,6 +113,8 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 )
 
+require github.com/mfridman/interpolate v0.0.2 // indirect
+
 require (
 	contrib.go.opencensus.io/exporter/stackdriver v0.13.5 // indirect
 	cosmossdk.io/api v0.3.1 // indirect
@@ -120,7 +122,7 @@ require (
 	cosmossdk.io/depinject v1.0.0-alpha.3 // indirect
 	cosmossdk.io/errors v1.0.0 // indirect
 	cosmossdk.io/math v1.0.1 // indirect
-	filippo.io/edwards25519 v1.0.0 // indirect
+	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 // indirect
 	github.com/99designs/keyring v1.2.1 // indirect
 	github.com/Azure/go-ntlmssp v0.0.0-20221128193559-754e69321358 // indirect
@@ -337,7 +339,6 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	nhooyr.io/websocket v1.8.7 // indirect
 	pgregory.net/rapid v0.5.5 // indirect
 	rsc.io/tmplfunc v0.0.3 // indirect
 	sigs.k8s.io/yaml v1.4.0
