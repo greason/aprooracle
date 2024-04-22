@@ -304,6 +304,8 @@ func (lsn *listenerV2) getUnfulfilled(logs []logpoller.Log, ll logger.Logger) (u
 			keyHash := parsed.KeyHash()
 			if !bytes.Equal(keyHash[:], expectedKeyHash[:]) {
 				// wrong keyhash, can ignore
+				ll.Infof("RequestID: %v, SubID: %v, Sender: %v, keyHash: %v is not equal expectedKeyHash: %v",
+					parsed.RequestID(), parsed.SubID(), parsed.Sender(), keyHash, expectedKeyHash)
 				continue
 			}
 			requested[parsed.RequestID().String()] = parsed
