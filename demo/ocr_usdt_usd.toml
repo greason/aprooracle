@@ -1,0 +1,44 @@
+type = "offchainreporting"
+schemaVersion = 1
+evmChainID = 4200
+name = "OCR: USDT/USD"
+contractAddress = "0xeF61805B485A3c122EF1Eb60CDd0D8239534bc90"
+externalJobID = "1f6ccbfd-5b9d-4793-8393-f099f7673b01"
+p2pv2Bootstrappers = [
+    "12D3KooWMjmCxyEaSSWoatbKfURxcVjMsdJbyaqNwpKndf3yAium@172.20.21.241:6660",
+    "12D3KooWJEcoXwVrRSPW9oiXco9scoZ6bpYHSBuNLP1tULj8hdyX@172.20.52.188:6660",
+]
+isBootstrapPeer = false
+keyBundleID = "f2efd67f4f2bf48eedad8e72f3b0cff842b4a8c83dada77bba096004bb2c4f2b"
+monitoringEndpoint = "apro.org:4321"
+transmitterAddress = "0x3d28d50D479810A28F61fae2b6a9F0109167A14f"
+observationTimeout = "10s"
+blockchainTimeout = "20s"
+contractConfigTrackerSubscribeInterval = "2m"
+contractConfigTrackerPollInterval = "1m"
+contractConfigConfirmations = 3
+observationSource = """
+encode_decimals [type="ethabiencode" abi="decimals()" data=""]
+decimals_call   [type="ethcall" contract="0xeF61805B485A3c122EF1Eb60CDd0D8239534bc90" data="$(encode_decimals)"  evmChainID="4200"]
+decode_decimals [type="ethabidecode" abi="uint32 decimals"  data="$(decimals_call)"]
+decimals_pow    [type="pow" input="10"  times="$(decode_decimals.decimals)"]
+encode_decimals -> decimals_call -> decode_decimals -> decimals_pow
+
+get_price_cryptocompare    [type="http" method=GET retries=2 url="https://min-api.cryptocompare.com/data/price?fsym=USDT&tsyms=USD"]
+parse_price_cryptocompare  [type="jsonparse" path="USD"]
+
+get_price_coinbase    [type="http" method=GET retries=2 url="https://api.coinbase.com/v2/prices/USDT-USD/spot"]
+parse_price_coinbase  [type="jsonparse" path="data,amount"]
+
+get_price_gateio     [type="http" method=GET retries=2 url="https://api.gateio.ws/api/v4/spot/tickers?currency_pair=USDT_USD"]
+parse_price_gateio   [type="jsonparse" path="0,last"]
+
+get_price_cryptocompare -> parse_price_cryptocompare -> price_mean
+get_price_coinbase -> parse_price_coinbase -> price_mean
+get_price_gateio -> parse_price_gateio -> price_mean
+
+price_mean [type="mean" failEarly=true values=<[$(parse_price_cryptocompare),$(parse_price_coinbase),$(parse_price_gateio)]> precision="$(decode_decimals.decimals)" allowedFaults=1]
+
+price_multiply [type="multiply" input="$(price_mean)" times="$(decimals_pow)"]
+price_mean -> price_multiply
+"""

@@ -1,0 +1,49 @@
+type = "offchainreporting"
+schemaVersion = 1
+evmChainID = 4200
+name = "OCR: USDC/USD"
+contractAddress = "0xB6d107352806647918a7eA6832d0577e8d023B45"
+externalJobID = "1f6ccbfd-5b9d-4793-8393-f099f7673b02"
+p2pv2Bootstrappers = [
+    "12D3KooWMjmCxyEaSSWoatbKfURxcVjMsdJbyaqNwpKndf3yAium@172.20.21.241:6660",
+    "12D3KooWJEcoXwVrRSPW9oiXco9scoZ6bpYHSBuNLP1tULj8hdyX@172.20.52.188:6660",
+]
+isBootstrapPeer = false
+keyBundleID = "690010a698e40f1ee73828e09bd6efe618f16ad4b0ddece8543d229a432694cc"
+monitoringEndpoint = "apro.org:4321"
+transmitterAddress = "0x3d28d50D479810A28F61fae2b6a9F0109167A14f"
+observationTimeout = "10s"
+blockchainTimeout = "20s"
+contractConfigTrackerSubscribeInterval = "2m"
+contractConfigTrackerPollInterval = "1m"
+contractConfigConfirmations = 3
+observationSource = """
+encode_decimals [type="ethabiencode" abi="decimals()" data=""]
+decimals_call   [type="ethcall" contract="0xB6d107352806647918a7eA6832d0577e8d023B45" data="$(encode_decimals)"  evmChainID="4200"]
+decode_decimals [type="ethabidecode" abi="uint32 decimals"  data="$(decimals_call)"]
+decimals_pow    [type="pow" input="10"  times="$(decode_decimals.decimals)"]
+encode_decimals -> decimals_call -> decode_decimals -> decimals_pow
+
+get_price_cryptocompare    [type="http" method=GET retries=2 url="https://min-api.cryptocompare.com/data/price?fsym=USDC&tsyms=USD"]
+parse_price_cryptocompare  [type="jsonparse" path="USD"]
+
+get_price_coinbase    [type="http" method=GET retries=2 url="https://api.coinbase.com/v2/prices/USDC-USD/spot"]
+parse_price_coinbase  [type="jsonparse" path="data,amount"]
+
+get_price_coinbase_usdt    [type="http" method=GET retries=2 url="https://api.coinbase.com/v2/prices/USDT-USD/spot"]
+parse_price_coinbase_usdt  [type="jsonparse" path="data,amount"]
+
+get_price_binance        [type="http" method=GET retries=2 url="https://data-api.binance.vision/api/v3/ticker/price?symbol=USDCUSDT"]
+parse_price_binance_tmp  [type="jsonparse" path="price"]
+parse_price_binance      [type="multiply" input="$(parse_price_binance_tmp)" times="$(parse_price_coinbase_usdt)"]
+
+get_price_cryptocompare -> parse_price_cryptocompare -> price_mean
+get_price_coinbase -> parse_price_coinbase -> price_mean
+get_price_coinbase_usdt -> parse_price_coinbase_usdt
+get_price_binance -> parse_price_binance_tmp -> parse_price_binance
+
+price_mean [type="mean" failEarly=true values=<[$(parse_price_cryptocompare),$(parse_price_coinbase),$(parse_price_binance)]> precision="$(decode_decimals.decimals)" allowedFaults=2]
+
+price_multiply [type="multiply" input="$(price_mean)" times="$(decimals_pow)"]
+price_mean -> price_multiply
+"""
