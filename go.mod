@@ -35,7 +35,7 @@ require (
 	github.com/gorilla/websocket v1.5.1
 	github.com/grafana/pyroscope-go v1.1.1
 	github.com/graph-gophers/dataloader v5.0.0+incompatible
-	github.com/graph-gophers/graphql-go v1.3.0
+	github.com/graph-gophers/graphql-go v1.5.0
 	github.com/hashicorp/consul/sdk v0.16.0
 	github.com/hashicorp/go-envparse v0.1.0
 	github.com/hashicorp/go-plugin v1.6.0
