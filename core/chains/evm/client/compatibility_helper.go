@@ -29,13 +29,17 @@ func ToBackwardCompatibleBlockNumArg(number *big.Int) string {
 
 // COPIED FROM go-ethereum/ethclient/gethclient - must be kept up to date!
 // Modified to include legacy 'data' as well as 'input' in order to support non-compliant servers.
-func ToBackwardCompatibleCallArg(msg ethereum.CallMsg) interface{} {
+func ToBackwardCompatibleCallArg(msg ethereum.CallMsg, chainID *big.Int) interface{} {
 	arg := map[string]interface{}{
 		"from": msg.From,
 		"to":   msg.To,
 	}
 	if len(msg.Data) > 0 {
-		arg["input"] = hexutil.Bytes(msg.Data)
+		// aiLayer
+		needLegacy := chainID.Int64() != 2648 && chainID.Int64() != 2649
+		if needLegacy {
+			arg["input"] = hexutil.Bytes(msg.Data)
+		}
 		arg["data"] = hexutil.Bytes(msg.Data) // duplicate legacy field for compatibility
 	}
 	if msg.Value != nil {

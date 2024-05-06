@@ -785,10 +785,10 @@ func (r *rpcClient) CallContract(ctx context.Context, msg interface{}, blockNumb
 	start := time.Now()
 	var hex hexutil.Bytes
 	if http != nil {
-		err = http.rpc.CallContext(ctx, &hex, "eth_call", ToBackwardCompatibleCallArg(message), ToBackwardCompatibleBlockNumArg(blockNumber))
+		err = http.rpc.CallContext(ctx, &hex, "eth_call", ToBackwardCompatibleCallArg(message, r.chainID), ToBackwardCompatibleBlockNumArg(blockNumber))
 		err = r.wrapHTTP(err)
 	} else {
-		err = ws.rpc.CallContext(ctx, &hex, "eth_call", ToBackwardCompatibleCallArg(message), ToBackwardCompatibleBlockNumArg(blockNumber))
+		err = ws.rpc.CallContext(ctx, &hex, "eth_call", ToBackwardCompatibleCallArg(message, r.chainID), ToBackwardCompatibleBlockNumArg(blockNumber))
 		err = r.wrapWS(err)
 	}
 	if err == nil {
@@ -816,10 +816,10 @@ func (r *rpcClient) PendingCallContract(ctx context.Context, msg interface{}) (v
 	start := time.Now()
 	var hex hexutil.Bytes
 	if http != nil {
-		err = http.rpc.CallContext(ctx, &hex, "eth_call", ToBackwardCompatibleCallArg(message), "pending")
+		err = http.rpc.CallContext(ctx, &hex, "eth_call", ToBackwardCompatibleCallArg(message, r.chainID), "pending")
 		err = r.wrapHTTP(err)
 	} else {
-		err = ws.rpc.CallContext(ctx, &hex, "eth_call", ToBackwardCompatibleCallArg(message), "pending")
+		err = ws.rpc.CallContext(ctx, &hex, "eth_call", ToBackwardCompatibleCallArg(message, r.chainID), "pending")
 		err = r.wrapWS(err)
 	}
 	if err == nil {
