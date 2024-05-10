@@ -113,7 +113,7 @@ func (ht *HeadTracker[HTH, S, ID, BLOCK_HASH]) Start(ctx context.Context) error 
 		}
 
 		ht.wgDone.Add(3)
-		go ht.headListener.ListenForNewHeads(ht.handleNewHead, ht.wgDone.Done)
+		//go ht.headListener.ListenForNewHeads(ht.handleNewHead, ht.wgDone.Done)
 		go ht.backfillLoop()
 		go ht.broadcastLoop()
 

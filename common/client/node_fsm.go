@@ -143,7 +143,7 @@ func (n *node[CHAIN_ID, HEAD, RPC]) declareAlive() {
 	n.transitionToAlive(func() {
 		n.lfcLog.Infow("RPC Node is online", "nodeState", n.state)
 		n.wg.Add(1)
-		go n.aliveLoop()
+		//go n.aliveLoop()
 	})
 }
 
@@ -169,7 +169,7 @@ func (n *node[CHAIN_ID, HEAD, RPC]) declareInSync() {
 	n.transitionToInSync(func() {
 		n.lfcLog.Infow("RPC Node is back in sync", "nodeState", n.state)
 		n.wg.Add(1)
-		go n.aliveLoop()
+		//go n.aliveLoop()
 	})
 }
 
