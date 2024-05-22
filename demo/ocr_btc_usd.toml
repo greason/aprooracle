@@ -70,7 +70,7 @@ get_price_gateio        [type="http" method=GET retries=2 url="https://api.gatei
 parse_price_gateio_tmp  [type="jsonparse" path="0,last"]
 parse_price_gateio      [type="multiply" input="$(parse_price_gateio_tmp)" times="$(price_mean_usdt)"]
 
-get_price_mexc        [type="http" method=GET retries=2 url="https://api.mexc.com/api/v3/ticker/price?symbol=BTCUSDC"]
+get_price_mexc        [type="http" method=GET retries=2 url="https://api.mexc.com/api/v3/ticker/price?symbol=BTCUSDT"]
 parse_price_mexc_tmp  [type="jsonparse" path="price"]
 parse_price_mexc      [type="multiply" input="$(parse_price_mexc_tmp)" times="$(price_mean_usdt)"]
 
